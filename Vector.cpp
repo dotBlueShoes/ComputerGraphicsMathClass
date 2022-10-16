@@ -1,110 +1,134 @@
-#include "Vector.h"
+#include "Vector.hpp"
 
-Vector::Vector()
+// Constructors
+
+constexpr Vector::Vector()
 {
 	this->x = 0;
 	this->y = 0;
 	this->z = 0;
 }
 
-Vector::Vector(float x, float y, float z)
+constexpr Vector::Vector(const float& x, const float& y, const float& z)
 {
 	this->x = x;
 	this->y = y;
 	this->z = z;
 }
 
-Vector::Vector(Vector p1, Vector p2)
+constexpr Vector::Vector(const Vector& p1, const Vector& p2)
 {
 	this->x = p2.x - p1.x;
 	this->y = p2.y - p1.y;
 	this->z = p2.z - p1.z;
 }
 
-Vector::~Vector()
+void Vector::add(const float& value) 
 {
+	this->x += value;
+	this->y += value;
+	this->z += value;
 }
 
-void Vector::add(Vector v)
+void Vector::operator+=(const float& value) { add(value); }
+
+void Vector::subtract(const float& value) 
 {
-	this->x += v.x;
-	this->y += v.y;
-	this->z += v.z;
+	this->x -= value;
+	this->y -= value;
+	this->z -= value;
 }
 
-void Vector::sub(Vector v)
-{
-	this->x -= v.x;
-	this->y -= v.y;
-	this->z -= v.z;
-}
+void Vector::operator-=(const float& value) { subtract(value); }
 
-void Vector::div(float f)
-{
-	if (f != 0)
-	{
-		this->x /= f;
-		this->y /= f;
-		this->z /= f;
-	}
-	else
-	{
+void Vector::divide(const float& value) {
+	if (value != 0) {
+		this->x /= value;
+		this->y /= value;
+		this->z /= value;
+	} else {
 		std::cout << "Can't divide by 0 [div]" << std::endl;
 	}
 }
 
-void Vector::mul(float f)
-{
-	this->x *= f;
-	this->y *= f;
-	this->z *= f;
+void Vector::operator/=(const float& other) { divide(other); }
+
+void Vector::multiply(const float& value) {
+	this->x *= value;
+	this->y *= value;
+	this->z *= value;
 }
+
+void Vector::operator*=(const float& other) { multiply(other); }
+
+void Vector::add(const Vector& other)
+{
+	this->x += other.x;
+	this->y += other.y;
+	this->z += other.z;
+}
+
+void Vector::operator+=(const Vector& other) { add(other); }
+
+void Vector::subtract(const Vector& other)
+{
+	this->x -= other.x;
+	this->y -= other.y;
+	this->z -= other.z;
+}
+
+void Vector::operator-=(const Vector& other) { subtract(other); }
 
 float Vector::length()
 {
-	float length = (float)sqrt((this->x * this->x) +
+	return (float)(sqrt(
+		(this->x * this->x) +
 		(this->y * this->y) +
-		(this->z * this->z));
-
-	return length;
+		(this->z * this->z)
+	));
 }
 
 void Vector::normalize()
 {
-	float len = this->length();
-	if (len != 0)
+	const float length = this->length();
+	if (length != 0)
 	{
-		this->div(len);
-	}
-	else
+		this->divide(length);
+	} else
 	{
 		std::cout << "Can't divide by 0 [normalize]" << std::endl;
 	}
 }
 
-Vector Vector::dot(Vector v)
+Vector Vector::dot(const Vector& other)
 {
-	Vector f;
-	f.x = this->x * v.x;
-	f.y = this->y * v.y;
-	f.z = this->z * v.z;
-	return f;
+	return { 
+		this->x * other.x,
+		this->y * other.y,
+		this->z * other.z
+	};
 }
 
-float Vector::dotProduct(Vector v)
+float Vector::dotProduct(const Vector& other)
 {
-	Vector f = this->dot(v);
-	return f.x + f.y + f.z;
+	const Vector result = this->dot(other);
+	return result.x + result.y + result.z;
 }
 
-Vector Vector::cross(Vector v)
+Vector Vector::cross(const Vector& other)
 {
-	return Vector(this->y * v.z - this->z * v.y,
-		this->z * v.x - this->x * v.z,
-		this->x * v.y - this->y * v.x);
+	return Vector(
+		this->y * other.z - this->z * other.y,
+		this->z * other.x - this->x * other.z,
+		this->x * other.y - this->y * other.x
+	);
 }
 
-float Vector::angle(Vector v)
+float Vector::angle(Vector& other)
 {
-	return this->dotProduct(v) / (this->length() * v.length());
+	// eg.
+	// u * v = u.x * v.x + u.x * v.x + u.x * v.x
+	// u * v = u.length * v.length * cos(angle)
+	// => cos(angle) = u.x * v.x + u.x * v.x + u.x * v.x / (u.length * v.length)
+	return acos(this->dotProduct(other) / (this->length() * other.length()));
 }
