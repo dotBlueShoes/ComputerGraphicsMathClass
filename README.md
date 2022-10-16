@@ -1,0 +1,2 @@
+# ComputerGraphicsMathClass
+"Matematyka Grafiki Komputerowej"
