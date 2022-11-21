@@ -1,26 +1,5 @@
 #include "Matrix.hpp"
 
-Matrix3n::Matrix3n()
-{
-}
-
-Matrix3n::Matrix3n(float e0, float e3, float e6, float e1, float e4, float e7, float e2, float e5, float e8)
-{
-	matrix[0] = e0;
-	matrix[1] = e1;
-	matrix[2] = e2;
-	matrix[3] = e3;
-	matrix[4] = e4;
-	matrix[5] = e5;
-	matrix[6] = e6;
-	matrix[7] = e7;
-	matrix[8] = e8;
-}
-
-Matrix3n::~Matrix3n()
-{
-}
-
 Matrix4x4::Matrix4x4()
 {
 }
@@ -310,5 +289,124 @@ void Matrix4x4::invertThis()
 
 void Matrix4x4::transposeMatrix(const Matrix4x4& m)
 {
+	matrix[0] = m.matrix[0];
+	matrix[4] = m.matrix[1];
+	matrix[8] = m.matrix[2];
+	matrix[12] = m.matrix[3];
+	matrix[1] = m.matrix[4];
+	matrix[5] = m.matrix[5];
+	matrix[9] = m.matrix[6];
+	matrix[13] = m.matrix[7];
+	matrix[2] = m.matrix[8];
+	matrix[6] = m.matrix[9];
+	matrix[10] = m.matrix[10];
+	matrix[14] = m.matrix[11];
+	matrix[3] = m.matrix[12];
+	matrix[7] = m.matrix[13];
+	matrix[11] = m.matrix[14];
+	matrix[15] = m.matrix[15];
+}
 
+Matrix4x4 Matrix4x4::transposeThis()
+{
+	Matrix4x4 res;
+	res.transposeMatrix(*this);
+	return res;
+}
+
+void Matrix4x4::translate(const Vector& trans)
+{
+	matrix[12] = trans.x;
+	matrix[13] = trans.y;
+	matrix[14] = trans.z;
+}
+
+void Matrix4x4::scale(const Vector& s)
+{
+	loadIdentity();
+	matrix[0] = s.x;
+	matrix[5] = s.y;
+	matrix[10] = s.z;
+}
+
+void Matrix4x4::uniformScale(const float scaleFactor)
+{
+	loadIdentity();
+	matrix[0] = matrix[5] = matrix[10] = scaleFactor;
+}
+
+void Matrix4x4::setRotationAxis(const double angle, const Vector& axis)
+{
+	Vector u = axis.normalize();
+
+	float sin = (float)sin(M_PI * angle / 180);
+	float cos = (float)cos(M_PI * angle / 180);
+
+	loadIdentity();
+
+	matrix[0] = u.x * u.x + cos * (1.0f - u.x * u.x);
+	matrix[4] = u.x * u.y * (1.0f - cos) - sin * u.z;
+	matrix[8] = u.x * u.z * (1.0f - cos) + sin * u.y;
+
+	matrix[1] = u.x * u.y * (1.0f - cos) + sin * u.z;
+	matrix[5] = u.y * u.y + cos * (1.0f - u.y * u.y);
+	matrix[9] = u.y * u.z * (1.0f - cos) - sin * u.x;
+
+	matrix[2] = u.x * u.z * (1.0f - cos) - sin * u.y;
+	matrix[6] = u.y * u.z * (1.0f - cos) + sin * u.x;
+	matrix[10] = u.z * u.z + cos * (1.0f - u.z * u.z);
+}
+
+void Matrix4x4::rotateX(const double angle)
+{
+	loadIdentity();
+
+	matrix[5] = (float)cos(M_PI * angle / 180);
+	matrix[6] = (float)sin(M_PI * angle / 180);
+
+	matrix[9] = -matrix[6];
+	matrix[10] = matrix[5];
+}
+
+void Matrix4x4::rotateY(const double angle)
+{
+	loadIdentity();
+
+	matrix[0] = (float)cos(M_PI * angle / 180);
+	matrix[2] = -(float)sin(M_PI * angle / 180);
+
+	matrix[8] = -matrix[2];
+	matrix[10] = matrix[0];
+}
+
+void Matrix4x4::rotateZ(const double angle)
+{
+	loadIdentity();
+
+	matrix[0] = (float)cos(M_PI * angle / 180);
+	matrix[1] = (float)sin(M_PI * angle / 180);
+
+	matrix[4] = -matrix[1];
+	matrix[5] = matrix[0];
+}
+
+Matrix3x3::Matrix3x3()
+{
+}
+
+Matrix3x3::Matrix3x3(float e0, float e3, float e6, float e1, float e4, float e7, float e2, float e5, float e8)
+{
+	matrix[0] = e0;
+	matrix[1] = e1;
+	matrix[2] = e2;
+	matrix[3] = e3;
+	matrix[4] = e4;
+	matrix[5] = e5;
+	matrix[6] = e6;
+	matrix[7] = e7;
+	matrix[8] = e8;
+}
+
+Matrix3x3::~Matrix3x3()
+{
 }

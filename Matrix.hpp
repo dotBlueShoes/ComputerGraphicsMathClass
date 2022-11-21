@@ -1,20 +1,5 @@
 #pragma once
-
-class Matrix3n
-{
-public:
-	// Matrix
-	float matrix[9] = { 0.0 };
-
-	// Constructors
-	Matrix3n();
-	Matrix3n(float e0, float e3, float e6, float e1, float e4, float e7, float e2, float e5, float e8);
-
-	// Copy constructor
-	Matrix3n& operator=(const Matrix3n& value);
-
-	~Matrix3n();
-};
+#include "Vector.hpp"
 
 class Matrix4x4
 {
@@ -46,4 +31,29 @@ public:
 	void invertThis();
 
 	void transposeMatrix(const Matrix4x4& m);
+	Matrix4x4 transposeThis();
+
+	void translate(const Vector& trans);
+	void scale(const Vector& s);
+	void uniformScale(const float scaleFactor);
+	void setRotationAxis(const double angle, const Vector& axis);
+	void rotateX(const double angle);
+	void rotateY(const double angle);
+	void rotateZ(const double angle);
+};
+
+class Matrix3x3
+{
+public:
+	// Matrix
+	float matrix[9] = { 0.0 };
+
+	// Constructors
+	Matrix3x3();
+	Matrix3x3(float e0, float e3, float e6, float e1, float e4, float e7, float e2, float e5, float e8);
+
+	// Copy constructor
+	Matrix3x3& operator=(const Matrix3x3& value);
+
+	~Matrix3x3();
 };
