@@ -12,7 +12,7 @@ int main() {
 	
 	Matrix4x4 test1(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
 	Matrix4x4 test2(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
-	float f = 2.0f;
+	float scalar = 2.0f;
 
 	
 	
@@ -43,7 +43,7 @@ int main() {
 	
 	{ // - Mnożenie przez skalar.
 		Matrix4x4 dotres(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30);
-		if (test1.dot(f) == dotres)
+		if (test1.dot(scalar) == dotres)
 			std::cout << "Scalar multiplication works!" << std::endl;
 		else
 			std::cout << "Scalar multiplication doesn't work :(" << std::endl;
@@ -70,7 +70,7 @@ int main() {
 			std::cout << "Inversion doesn't work :(" << std::endl;
 	}
 
-	{ // - Tlanslacja
+	{ // - Translacja
 		Matrix4x4 transcheck(0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15);
 		if (test1.transposeThis() == transcheck)
 			std::cout << "Transposition works!" << std::endl;
