@@ -126,10 +126,18 @@ int main() {
 	
 
 	{ // 3. Wektor [1001] , obróć o 90 stopni wokół osi Y
-		std::string temp = test1.toString();
-		test1.setRotationAxis(90, Vector(0, 1, 0));
-		temp += '\n';
-		temp += test1.toString();
+		Matrix4x4 vectorAsMatrix(1, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  1, 0, 0, 0);
+		Matrix4x4 rotateY = Matrix4x4();
+		rotateY.rotateY(90);
+
+		std::string temp = "Vector:\n";
+		temp += vectorAsMatrix.toString();
+		temp += "Rotation matrix:\n";
+		temp += rotateY.toString();
+
+		Matrix4x4 result = rotateY.multiply(vectorAsMatrix);
+		temp += "Result matrix:\n";
+		temp += result.toString();
 
 		std::cout << temp;
 	}
@@ -137,7 +145,7 @@ int main() {
 	{ // 4. Wykaż za pomocą zaimplementowanego przykładu braku przemienności mnożenia macierzy
 		Matrix4x4 test3(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
 		if (test2.multiply(test3) == mulres)
-			std::cout << "Multiplication works!" << std::endl;
+			std::cout << "Multiplication works :( !" << std::endl;
 		else
 			std::cout << "Multiplication doesn't work :)" << std::endl;
 	}

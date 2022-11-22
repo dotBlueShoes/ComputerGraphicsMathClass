@@ -400,53 +400,61 @@ void Matrix4x4::setRotationAxis(const double& angle, const Vector& axis)
 
 	float mySin = (float)sin(Constants::pi<double> * angle / 180);
 	float myCos = (float)cos(Constants::pi<double> * angle / 180);
+	float temp = 1.0f - myCos;
 
 	loadIdentity();
 
-	matrix[0] = u.x * u.x + myCos * (1.0f - u.x * u.x);
-	matrix[4] = u.x * u.y * (1.0f - myCos) - mySin * u.z;
-	matrix[8] = u.x * u.z * (1.0f - myCos) + mySin * u.y;
+	matrix[0 + 4 * 0] = u.x * u.x + myCos * (1.0f - u.x * u.x);
+	matrix[0 + 4 * 1] = u.x * u.y * temp - mySin * u.z;
+	matrix[0 + 4 * 2] = u.x * u.z * temp + mySin * u.y;
 
-	matrix[1] = u.x * u.y * (1.0f - myCos) + mySin * u.z;
-	matrix[5] = u.y * u.y + myCos * (1.0f - u.y * u.y);
-	matrix[9] = u.y * u.z * (1.0f - myCos) - mySin * u.x;
+	matrix[1 + 4 * 0] = u.x * u.x + myCos * (1.0f - u.x * u.x);
+	matrix[1 + 4 * 1] = u.x * u.y * temp - mySin * u.z;
+	matrix[1 + 4 * 2] = u.x * u.z * temp + mySin * u.y;
+	
+	//matrix[0] = u.x * u.x + myCos * (1.0f - u.x * u.x);
+	//matrix[4] = u.x * u.y * (1.0f - myCos) - mySin * u.z;
+	//matrix[8] = u.x * u.z * (1.0f - myCos) + mySin * u.y;
+	//
+	//matrix[1] = u.x * u.y * (1.0f - myCos) + mySin * u.z;
+	//matrix[5] = u.y * u.y + myCos * (1.0f - u.y * u.y);
+	//matrix[9] = u.y * u.z * (1.0f - myCos) - mySin * u.x;
+	//
+	//matrix[2] = u.x * u.z * (1.0f - myCos) - mySin * u.y;
+	//matrix[6] = u.y * u.z * (1.0f - myCos) + mySin * u.x;
+	//matrix[10] = u.z * u.z + myCos * (1.0f - u.z * u.z);
 
-	matrix[2] = u.x * u.z * (1.0f - myCos) - mySin * u.y;
-	matrix[6] = u.y * u.z * (1.0f - myCos) + mySin * u.x;
-	matrix[10] = u.z * u.z + myCos * (1.0f - u.z * u.z);
+
 }
 
 void Matrix4x4::rotateX(const double& angle)
 {
 	loadIdentity();
 
-	matrix[5] = (float)cos(Constants::pi<double> * angle / 180);
-	matrix[6] = (float)sin(Constants::pi<double> * angle / 180);
-
-	matrix[9]  = -matrix[6];
-	matrix[10] =  matrix[5];
+	matrix[1 + 4 * 1] =  (float)cos(Constants::pi<double> * angle / 180);
+	matrix[2 + 4 * 1] = -(float)sin(Constants::pi<double> * angle / 180);
+	matrix[1 + 4 * 2] = -matrix[6];
+	matrix[2 + 4 * 2] =  matrix[5];
 }
 
 void Matrix4x4::rotateY(const double& angle)
 {
 	loadIdentity();
 
-	matrix[0] =  (float)cos(Constants::pi<double> * angle / 180);
-	matrix[2] = -(float)sin(Constants::pi<double> * angle / 180);
-
-	matrix[8]  = -matrix[2];
-	matrix[10] =  matrix[0];
+	matrix[0 + 4 * 0] =  (float)cos(Constants::pi<double> * angle / 180);
+	matrix[2 + 4 * 0] =  (float)sin(Constants::pi<double> * angle / 180);
+	matrix[0 + 4 * 2] = -matrix[2];
+	matrix[2 + 4 * 2] =  matrix[0];
 }
 
 void Matrix4x4::rotateZ(const double& angle)
 {
 	loadIdentity();
 
-	matrix[0] = (float)cos(Constants::pi<double> * angle / 180);
-	matrix[1] = (float)sin(Constants::pi<double> * angle / 180);
-
-	matrix[4] = -matrix[1];
-	matrix[5] =  matrix[0];
+	matrix[0 + 4 * 0] =  (float)cos(Constants::pi<double> * angle / 180);
+	matrix[1 + 4 * 0] = -(float)sin(Constants::pi<double> * angle / 180);
+	matrix[0 + 4 * 1] = -matrix[1];
+	matrix[1 + 4 * 1] =  matrix[0];
 }
 
 std::string Matrix4x4::toString() {
