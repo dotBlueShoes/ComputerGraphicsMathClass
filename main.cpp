@@ -72,9 +72,6 @@ int main() {
 	// Skalowanie
 	// Obrót X, Y, Z
 	// Składowanie przekształceń
-	
-	// 3. Wektor [1001] , obróć o 90 stopni wokół osi Y
-	// 4. Wykaż za pomocą zaimplementowanego przykładu braku przemienności mnożenia macierzy
 
 	float f = 2.0f;
 	Matrix4x4 test1(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
@@ -126,6 +123,25 @@ int main() {
 	else
 		std::cout << "Transposition doesn't work :(" << std::endl;
 
+	
+
+	{ // 3. Wektor [1001] , obróć o 90 stopni wokół osi Y
+		std::string temp = test1.toString();
+		test1.setRotationAxis(90, Vector(0, 1, 0));
+		temp += '\n';
+		temp += test1.toString();
+
+		std::cout << temp;
+	}
+	
+	{ // 4. Wykaż za pomocą zaimplementowanego przykładu braku przemienności mnożenia macierzy
+		Matrix4x4 test3(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+		if (test2.multiply(test3) == mulres)
+			std::cout << "Multiplication works!" << std::endl;
+		else
+			std::cout << "Multiplication doesn't work :)" << std::endl;
+	}
+	
 
 	return 0;
 }

@@ -46,6 +46,8 @@ public:
 	void rotateX(const double& angle);
 	void rotateY(const double& angle);
 	void rotateZ(const double& angle);
+
+	std::string toString();
 };
 
 class Matrix3x3
