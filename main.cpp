@@ -45,13 +45,13 @@ int main() {
 	}
 
 	{ // Division
-		Quaternion quaternion1(1, { 0, 3, 5 });
-		Quaternion quaternion2(1, { 1, 0, 2 });
-		Quaternion a(1.833333, { -1.166667, -0.333333, 1.000000 });
+		Quaternion quaternion1(1, { 3, 3, 3 });
+		Quaternion quaternion2(1, { 1, 2, 2 });
+		Quaternion temp(1.6, { 0.2, 0.4, -0.2 });
 		Quaternion result = quaternion1 / quaternion2;
 		output += "Dzielenie:\n";
 		output += result.toString() + "\n";
-		output += a.toString() + "\n";
+		output += temp.toString() + "\n";
 	}
 
 	{ // 3. Punkt[-1, -1, -1] obróć o 270° wokół osi x
