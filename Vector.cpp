@@ -23,6 +23,13 @@ constexpr Vector::Vector(const Vector& p1, const Vector& p2)
 	this->z = p2.z - p1.z;
 }
 
+Vector& Vector::operator=(const Vector& other) {
+	this->x = other.x;
+	this->y = other.y;
+	this->z = other.z;
+	return *this;
+}
+
 void Vector::add(const float& value) 
 {
 	this->x += value;
@@ -31,6 +38,13 @@ void Vector::add(const float& value)
 }
 
 void Vector::operator+=(const float& value) { add(value); }
+
+Vector Vector::operator+(const float& other) const {
+	float newX = this->x + other;
+	float newY = this->y + other;
+	float newZ = this->z + other;
+	return Vector(newX, newY, newZ);
+}
 
 void Vector::subtract(const float& value) 
 {
@@ -41,7 +55,14 @@ void Vector::subtract(const float& value)
 
 void Vector::operator-=(const float& value) { subtract(value); }
 
-void Vector::divide(const float& value) {
+Vector Vector::operator-(const float& other) const {
+	float newX = this->x - other;
+	float newY = this->y - other;
+	float newZ = this->z - other;
+	return Vector(newX, newY, newZ);
+}
+
+constexpr void Vector::divide(const float& value) {
 	if (value != 0) {
 		this->x /= value;
 		this->y /= value;
@@ -53,6 +74,13 @@ void Vector::divide(const float& value) {
 
 void Vector::operator/=(const float& other) { divide(other); }
 
+Vector Vector::operator/(const float& other) const {
+	float newX = this->x / other;
+	float newY = this->y / other;
+	float newZ = this->z / other;
+	return Vector(newX, newY, newZ);
+}
+
 void Vector::multiply(const float& value) {
 	this->x *= value;
 	this->y *= value;
@@ -60,6 +88,13 @@ void Vector::multiply(const float& value) {
 }
 
 void Vector::operator*=(const float& other) { multiply(other); }
+
+Vector Vector::operator*(const float& other) const {
+	float newX = this->x * other;
+	float newY = this->y * other;
+	float newZ = this->z * other;
+	return Vector(newX, newY, newZ);
+}
 
 void Vector::add(const Vector& other)
 {
@@ -70,6 +105,13 @@ void Vector::add(const Vector& other)
 
 void Vector::operator+=(const Vector& other) { add(other); }
 
+Vector Vector::operator+(const Vector& other) const {
+	float newX = this->x + other.x;
+	float newY = this->y + other.y;
+	float newZ = this->z + other.z;
+	return Vector(newX, newY, newZ);
+}
+
 void Vector::subtract(const Vector& other)
 {
 	this->x -= other.x;
@@ -79,7 +121,14 @@ void Vector::subtract(const Vector& other)
 
 void Vector::operator-=(const Vector& other) { subtract(other); }
 
-float Vector::length()
+Vector Vector::operator-(const Vector& other) const {
+	float newX = this->x - other.x;
+	float newY = this->y - other.y;
+	float newZ = this->z - other.z;
+	return Vector(newX, newY, newZ);
+}
+
+float Vector::length() const
 {
 	return (float)(sqrt(
 		(this->x * this->x) +
@@ -100,23 +149,34 @@ void Vector::normalize()
 	}
 }
 
-Vector Vector::dot(const Vector& other)
+float Vector::dot(const Vector& other) const
 {
-	return { 
+	const Vector result = {
 		this->x * other.x,
 		this->y * other.y,
 		this->z * other.z
 	};
+
+	return (result.x + result.y + result.z);
 }
 
-float Vector::dotProduct(const Vector& other)
+Vector Vector::cross(const Vector& other) const
 {
-	const Vector result = this->dot(other);
-	return result.x + result.y + result.z;
+	return Vector(
+		this->y * other.z - this->z * other.y,
+		this->z * other.x - this->x * other.z,
+		this->x * other.y - this->y * other.x
+	);
 }
 
-Vector Vector::cross(const Vector& other)
+void Vector::operator*=(const Vector& other)
 {
+	this->x = this->y * other.z - this->z * other.y;
+	this->y = this->z * other.x - this->x * other.z;
+	this->z = this->x * other.y - this->y * other.x;
+}
+
+Vector Vector::operator*(const Vector& other) const {
 	return Vector(
 		this->y * other.z - this->z * other.y,
 		this->z * other.x - this->x * other.z,
@@ -130,5 +190,16 @@ float Vector::angle(Vector& other)
 	// u * v = u.x * v.x + u.x * v.x + u.x * v.x
 	// u * v = u.length * v.length * cos(angle)
 	// => cos(angle) = u.x * v.x + u.x * v.x + u.x * v.x / (u.length * v.length)
-	return acos(this->dotProduct(other) / (this->length() * other.length()));
+	return acos(this->dot(other) / (this->length() * other.length()));
+}
+
+std::string Vector::toString() {
+	std::string temp("Vector: ");
+	temp += std::to_string(this->x);
+	temp += ", ";
+	temp += std::to_string(this->y);
+	temp += ", ";
+	temp += std::to_string(this->z);
+	temp += ". ";
+	return temp;
 }

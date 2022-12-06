@@ -9,30 +9,63 @@ struct Vector
 	// Constructors
 	constexpr Vector();
 	constexpr Vector(const float&, const float&, const float&);
+
+	constexpr Vector(const Vector& other) {
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+	}
+
 	constexpr Vector(const Vector&, const Vector&);
 
-	float length();			
+	Vector& operator=(const Vector&);
+
+	constexpr bool operator==(const Vector& other) const {
+		return {
+			this->x == other.x &&
+			this->y == other.y &&
+			this->z == other.z
+		};
+	}
+
+	constexpr bool operator!=(const Vector& other) const {
+		return !(
+			this->x == other.x &&
+			this->y == other.y &&
+			this->z == other.z
+		);
+	}
+
+	float length() const;			
 	void normalize();		// Transform vector to (-1 : 1) range.
 	float angle(Vector&);	// Angle between two vectors
 
 	// Scalar Operations
 	void add(const float&);
 	void operator+=(const float&);
+	Vector operator+(const float&) const;
 	void subtract(const float&);
 	void operator-=(const float&);
-	void divide(const float&);
+	Vector operator-(const float&) const;
+	constexpr void divide(const float&);
 	void operator/=(const float&);
+	Vector operator/(const float&) const;
 	void multiply(const float&);
 	void operator*=(const float&);
-	Vector dot(const Vector&);		 //
-	float dotProduct(const Vector&); // Iloczyn Skalarny jest operacj¹ na wektorach, która oblicza k¹t pomiêdzy dwoma wektorami.
+	Vector operator*(const float&) const;
+	float dot(const Vector&) const;
 
 	// Vector Operations
 	void add(const Vector&);
 	void operator+=(const Vector&);
+	Vector operator+(const Vector&) const;
 	void subtract(const Vector&);
 	void operator-=(const Vector&);
-	Vector cross(const Vector&);	 // Iloczyn krzy¿owy daje wektor prostopad³y do wektorów mno¿enia i mno¿nika.
+	Vector operator-(const Vector&) const;
+	Vector cross(const Vector&) const;	 // Iloczyn krzy¿owy daje wektor prostopad³y do wektorów mno¿enia i mno¿nika.
+	void operator*=(const Vector&);
+	Vector operator*(const Vector&) const;
 
+	std::string toString();
 	
 };

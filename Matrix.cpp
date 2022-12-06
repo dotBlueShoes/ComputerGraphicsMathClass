@@ -458,7 +458,7 @@ void Matrix4x4::rotateZ(const double& angle)
 }
 
 std::string Matrix4x4::toString() {
-	std::string temp;
+	std::string temp("Matrix: ");
 	for (int x = 0; x < 4; x++) {
 		for (int y = 0; y < 4; y++) {
 			temp += std::to_string(matrix[y + x * 4]);
