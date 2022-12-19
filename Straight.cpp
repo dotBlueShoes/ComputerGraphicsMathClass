@@ -1,1 +1,0 @@
-#include "Straight.hpp"
