@@ -6,6 +6,7 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
 #include "Quaternion.hpp"
+#include "Intersection.hpp"
 
 
 int main() {
@@ -13,71 +14,54 @@ int main() {
 	using std::string;
 	string output("");
 
-	// 2. Sprawdź czy operacje działają prawidłowo wyniki zapisz w dokumencie word
-	{ // Addition
-		Quaternion quaternion1(90, { 1, 0, 0 });
-		Quaternion quaternion2(10, { 1, 2, 3 });
-		Quaternion result(100, { 2, 2, 3 });
-		if ((quaternion1 + quaternion2) == result)
-			output += "Poprawnie: Dodawanie\n";
-		else 
-			output += "Niepoprawnie: Dodawanie\n";
+	// y = mx + i
+	//  m - nachylenie
+	//  i - wyraz wolny
+	//  m - deltay/deltax
+	// deltax*y = deltay*x + deltax*i
+	// deltay*x - deltax*y + deltax*i = 0
+	// ax - by + c = 0  :  równanie prostej.
+
+	
+	{ // 1.Znajdź punkt przecięcia prostych.
+
+		Straight straight1({ 0, 0, 0 }, { 0, 0, 0 });
+		Straight straight2({ 0, 0, 0 }, { 0, 0, 0 });
+		Intersection intersection(straight1, straight2);
+
+
+		{ // 2. Znajdź kąt między prostymi z zdania {1}.
+
+			
+		}
+
 	}
 
-	{ // Subtraction
-		Quaternion quaternion1(90, { 1, 0, 0 });
-		Quaternion quaternion2(10, { 1, 2, 3 });
-		Quaternion result(80, { 0, -2, -3 });
-		if ((quaternion1 - quaternion2) == result)
-			output += "Poprawnie: Odejmowanie\n";
-		else
-			output += "Niepoprawnie: Odejmowanie\n";
-	}
+	{ // 3. Znajdź punkt przecięcia pomiędzy prostymi:
 
-	{ // Multiplication
-		Quaternion quaternion1(90, { 1, 0, 0 });
-		Quaternion quaternion2(10, { 1, 2, 3 });
-		Quaternion result(899, { 100, 177, 272 });
-		if ((quaternion1 * quaternion2) == result)
-			output += "Poprawnie: Mnozenie\n";
-		else
-			output += "Niepoprawnie: Mnozenie\n";
-	}
+		{ // 4. Znajdź kąt pomiędzy prostą a płaszczyzną z zadania {2}.
 
-	{ // Division
-		Quaternion quaternion1(1, { 3, 3, 3 });
-		Quaternion quaternion2(1, { 1, 2, 2 });
-		Quaternion temp(1.6, { 0.2, 0.4, -0.2 });
-		Quaternion result = quaternion1 / quaternion2;
-		output += "Dzielenie:\n";
-		output += result.toString() + "\n";
-		output += temp.toString() + "\n";
-	}
-
-	{ // 3. Punkt[-1, -1, -1] obróć o 270° wokół osi x
-		Quaternion quaternion1(270.0f, { -1, -1, -1 });
-		Vector axis(1, 0, 0);
-		Vector result(-1, -1, 1);
-		if (quaternion1.rotateVectorAboutAngleAndAxis(270.0f, axis) == result)
-			output += "Poprawnie: Obracanie\n";
-		else
-			output += "Niepoprawnie: Obracanie\n";
-	}
-
-	{ // 4. Udowodnij za pomocą zaimplementowanego przykładu brak przemienności mnożenia  kwaternionów
-		Quaternion quaternion1(5, { 1, 2, 3 });
-		Quaternion quaternion2(3, { 3, 3, 3 });
-		Quaternion result1(-3, { 15, 27, 21 });
-		Quaternion result2(-3, { 21, 15, 27 });
-		if (quaternion1 * quaternion2 == result1 &&
-			quaternion2 * quaternion1 == result2) {
-			output += "Przyklad braku przemiennosci: ";
-			if (result1 != result2)
-				output += " Poprawny";
-			else
-				output += " Niepoprawny ";
+			
 		}
 	}
+
+	{ // 5. Znajdź prostą przecięcia płaszczyzn.
+
+		{ // 6. Znajdź kąt pomiędzy płaszczyznami z zadania {5}.
+
+			
+		}
+	}
+
+	{ // 7. Znajdź punkt przecięcia dwóch odcinków opisanych punktami:
+
+	}
+
+	{ // 1. Znajdź punkt przecięcia sfery o początku w centrum układu współrzędnych [0, 0, 0] i 
+	  //  promieniu sqrt(26)., oraz prostej przechodzącej przez punkty.
+
+	}
+	
 
 	std::cout << output << std::endl;
 	return 0;

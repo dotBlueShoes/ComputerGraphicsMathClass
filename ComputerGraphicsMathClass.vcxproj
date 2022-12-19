@@ -127,15 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Intersection.cpp" />
+    <ClCompile Include="Straight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Framework.hpp" />
+    <ClInclude Include="Intersection.hpp" />
+    <ClInclude Include="Straight.hpp" />
     <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="Point.hpp" />
     <ClInclude Include="Quaternion.hpp" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>
