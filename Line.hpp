@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector.hpp"
-#include "Point.hpp"
 
 class Line{
 	Vector directional; // Direction of this straight line.
@@ -20,14 +19,14 @@ public:
 		const float& newX, const float& newY, const float& newZ
 	) : directional(newDirectionalX, newDirectionalY, newDirectionalZ), point(newX, newY, newZ) {}
 
-	bool lineIntersectionCheck(Line& other);
-	Vector getLineIntersectionPoint(Line& other);
-	float getAngleBetweenLines(Line& other);
+	bool lineIntersectionCheck(const Line& other);
+	Vector getLineIntersectionPoint(const Line& other);
+	float getAngleBetweenLines(const Line& other);
 
-	Vector getLineAndPlaneIntersectionPoint(Line& other);
-	float getAngleBetweenLineAndPlane(Line& other);
+	Vector getLineAndPlaneIntersectionPoint(const Line& other);
+	float getAngleBetweenLineAndPlane(const Line& other);
 
-	Line getPlaneIntersection(Line& other);
+	Line getPlaneIntersection(const Line& other);
 
 	Vector getDirectional();
 	Vector getPoint();

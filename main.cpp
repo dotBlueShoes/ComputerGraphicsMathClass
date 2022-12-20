@@ -7,21 +7,13 @@
 #include "Matrix.hpp"
 #include "Quaternion.hpp"
 #include "Line.hpp"
+#include "Segment.hpp"
 
 
 int main() {
 
 	using std::string;
 	string output("");
-
-	// y = mx + i
-	//  m - nachylenie
-	//  i - wyraz wolny
-	//  m - deltay/deltax
-	// deltax*y = deltay*x + deltax*i
-	// deltay*x - deltax*y + deltax*i = 0
-	// ax - by + c = 0  :  równanie prostej.
-
 	
 	{ // 1.Znajdź punkt przecięcia prostych.
 
@@ -38,7 +30,7 @@ int main() {
 
 
 		{ // 2. Znajdź kąt między prostymi z zdania {1}.
-			float angle = line1.getAngleBetweenLines(line2);
+			float angle = line1.getAngleBetweenLines(line2) * 180 / Constants::pi<float>;
 			output += "2. ";
 			output += std::to_string(angle);
 			output += '\n';
@@ -56,7 +48,7 @@ int main() {
 		output += '\n';
 
 		{ // 4. Znajdź kąt pomiędzy prostą a płaszczyzną z zadania {2}.
-			float angle = line1.getAngleBetweenLineAndPlane(line2);
+			float angle = line1.getAngleBetweenLineAndPlane(line2) * 180 / Constants::pi<float>;
 			output += "4. ";
 			output += std::to_string(angle);
 			output += '\n';
@@ -64,28 +56,46 @@ int main() {
 	}
 
 	{ // 5. Znajdź prostą przecięcia płaszczyzn.
-		//Line line1({ 2, -1, 1 }, { 4, 1, 1 });
-		//Line line2({ 4, 3, 1 }, { -4, 1, -1 });
+		Line plane1({ 2, -1, 1 }, { 4, 1, 1 });
+		Line plane2({ 4, 3, 1 }, { -4, 1, -1 });
 
-		Line line1({ 1, 0, 5 }, { 1, 6, -2 });
-		Line line2({ 3, -2, 2 }, { 2, 1, 0 });
+		//Line plane1({ 1, 0, 5 }, { 1, 6, -2 });
+		//Line plane2({ 3, -2, 2 }, { 2, 1, 0 });
 
-		Line line = line1.getPlaneIntersection(line2);
-		output += "5. ";
-		output += line.getDirectional().toString() + ", " + line.getPoint().toString();
+		//Line plane1({ 7, 5.5, 2 }, { 1.2, 4, -1.8 });
+		//Line plane2({ 3.4, 3, 5 }, { 2, 1, 1 });
+
+		Line result = plane1.getPlaneIntersection(plane2);
+		output += "5. Directional ";
+		output += result.getDirectional().toString();
+		output += ", Point ";
+		output += result.getPoint().toString();
 		output += '\n';
 
 		{ // 6. Znajdź kąt pomiędzy płaszczyznami z zadania {5}.
-
-			
+			float angle = plane1.getAngleBetweenLines(plane2) * 180 / Constants::pi<float>;
+			output += "6. ";
+			output += std::to_string(angle);
+			output += '\n';
 		}
 	}
 
 	{ // 7. Znajdź punkt przecięcia dwóch odcinków opisanych punktami:
+		// A { 5, 5, 4 }, A' { 10, 10, 6 }
+		// B { 5, 5, 5 }, B' { 10, 10, 3 } 
+		Segment segmentA({ 5, 5, 4 }, { 10, 10, 6 });
+		Segment segmentB({ 5, 5, 5 }, { 10, 10, 3 });
+
+		if (segmentA.lineBetween.lineIntersectionCheck(segmentB.lineBetween)) {
+			Vector point = segmentA.lineBetween.getLineIntersectionPoint(segmentB.lineBetween);
+			output += "7. ";
+			output += point.toString();
+			output += '\n';
+		}
 
 	}
 
-	{ // 1. Znajdź punkt przecięcia sfery o początku w centrum układu współrzędnych [0, 0, 0] i 
+	{ // 1. AKA 8. Znajdź punkt przecięcia sfery o początku w centrum układu współrzędnych [0, 0, 0] i 
 	  //  promieniu sqrt(26)., oraz prostej przechodzącej przez punkty.
 
 	}

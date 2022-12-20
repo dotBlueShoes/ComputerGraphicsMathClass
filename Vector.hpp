@@ -38,7 +38,7 @@ struct Vector
 
 	float length() const;			
 	void normalize();		// Transform vector to (-1 : 1) range.
-	float angle(Vector&);	// Angle between two vectors
+	float angle(const Vector&);	// Angle between two vectors
 
 	// Scalar Operations
 	void add(const float&);

@@ -2,7 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-bool Line::lineIntersectionCheck(Line& other)
+bool Line::lineIntersectionCheck(const Line& other)
 {
 	if (fabs(this->directional.cross(other.directional).length()) == 0.f)
 	{
@@ -13,7 +13,7 @@ bool Line::lineIntersectionCheck(Line& other)
 	return true;
 }
 
-Vector Line::getLineIntersectionPoint(Line& other)
+Vector Line::getLineIntersectionPoint(const Line& other)
 {
 	float t1 = (other.point - this->point).cross(other.directional).dot(this->directional.cross(other.directional)) / 
 		(this->directional.cross(other.directional).length() * this->directional.cross(other.directional).length());
@@ -26,12 +26,12 @@ Vector Line::getLineIntersectionPoint(Line& other)
 	return Vector(x, y, z);
 }
 
-float Line::getAngleBetweenLines(Line& other)
+float Line::getAngleBetweenLines(const Line& other)
 {
 	return this->directional.angle(other.directional);
 }
 
-Vector Line::getLineAndPlaneIntersectionPoint(Line& other)
+Vector Line::getLineAndPlaneIntersectionPoint(const Line& other)
 {
 	float t = (other.directional * -1).dot(this->point - other.point) / (other.directional.dot(this->directional));
 
@@ -42,14 +42,25 @@ Vector Line::getLineAndPlaneIntersectionPoint(Line& other)
 	return Vector(x, y, z);
 }
 
-float Line::getAngleBetweenLineAndPlane(Line& other)
+float Line::getAngleBetweenLineAndPlane(const Line& other)
 {
 	return M_PI / 2 - this->directional.angle(other.directional);
 }
 
-Line Line::getPlaneIntersection(Line& other)
+Line Line::getPlaneIntersection(const Line& plane)
 {
-	Vector v = this->directional.cross(other.directional);
+	//float temp = (plane.directional * (this->point - plane.point)) / ( plane.directional * this->directional);
+
+	Vector newDirectional = this->directional.cross(plane.directional);
+	const float det = newDirectional.length();
+	if (det != 0.0) {
+		Vector newPoint = (
+			(newDirectional.cross(plane.directional) * -8) +
+			(this->directional.cross(newDirectional) * 14)
+		) / det;
+		return Line({ newDirectional }, newPoint);
+	}
+	
 	return Line(0, 0, 0, 0, 0, 0);
 }
 

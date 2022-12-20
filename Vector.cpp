@@ -184,7 +184,7 @@ Vector Vector::operator*(const Vector& other) const {
 	);
 }
 
-float Vector::angle(Vector& other)
+float Vector::angle(const Vector& other)
 {
 	// eg.
 	// u * v = u.x * v.x + u.x * v.x + u.x * v.x
