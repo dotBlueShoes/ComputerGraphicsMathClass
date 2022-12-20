@@ -8,6 +8,7 @@
 #include "Quaternion.hpp"
 #include "Line.hpp"
 #include "Segment.hpp"
+#include "Sphere.hpp"
 
 
 int main() {
@@ -97,6 +98,15 @@ int main() {
 
 	{ // 1. AKA 8. Znajdź punkt przecięcia sfery o początku w centrum układu współrzędnych [0, 0, 0] i 
 	  //  promieniu sqrt(26)., oraz prostej przechodzącej przez punkty.
+
+		Sphere sphere({ 0,0,0 }, sqrt(26));
+		Line line({ 3, -1, -2 }, { 5, 3, -4 });
+
+		Sphere::IntersectionResult result = sphere.getIntersection(line);
+		output += "8. ";
+		output += result.data()[0].toString();
+		output += result.data()[1].toString();
+		output += '\n';
 
 	}
 	
