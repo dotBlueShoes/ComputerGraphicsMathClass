@@ -3,6 +3,8 @@
 #include "Line.hpp"
 #include <array>
 
+#include <iostream>
+
 class Sphere {
 
 public:
@@ -18,7 +20,10 @@ public:
     IntersectionResult getIntersection(
         Line& line
     ) {
-        Vector temp = line.getPoint() - this->position;
+        Vector prob = line.getPoint();
+        std::cout << prob.x << ", " << prob.y << ", " << prob.z << '\n';
+        std::cout << this->position.x << ", " << this->position.y << ", " << this->position.z << '\n';
+        Vector temp = prob - this->position;
         float a = line.getDirectional().dot(line.getDirectional());
         float b = 2.0f * temp.dot(line.getDirectional());
         float c = temp.dot(temp) - this->radius * this->radius;
