@@ -11,6 +11,12 @@
 #include "Sphere.hpp"
 
 
+Line CreateLineFromTwoPoints(const Vector& point1, const Vector& point2) {
+	Vector temp = point2 - point1;
+	return { temp, point1 };
+}
+
+
 int main() {
 
 	using std::string;
@@ -102,9 +108,13 @@ int main() {
 		Sphere sphere({ 0,0,0 }, std::sqrt(26));
 		//Sphere sphere({ 0,0,0 }, 3);
 		//Segment segment({ 3, -1, -2 }, { 5, 3, -4 });
-		Line line({ 3, -1, -2 }, { 5, 3, -4 });
+		//Line line({ 3, -1, -2 }, { 5, 3, -4 });
+		//Line line = Line::FromTwoPoints({ 3, -1, -2 }, { 5, 3, -4 });
+		Vector A { 3, -1, -2 };
+		Vector B { 5, 3, -4 };
+		Line lineBetween = CreateLineFromTwoPoints(A, B);
 
-		Sphere::IntersectionResult result = sphere.getIntersection(line);
+		Sphere::IntersectionResult result = sphere.getIntersection(lineBetween);
 		output += "8. ";
 		output += result.data()[0].toString();
 		output += result.data()[1].toString();
