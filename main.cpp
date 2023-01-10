@@ -99,7 +99,9 @@ int main() {
 	{ // 1. AKA 8. Znajdź punkt przecięcia sfery o początku w centrum układu współrzędnych [0, 0, 0] i 
 	  //  promieniu sqrt(26)., oraz prostej przechodzącej przez punkty.
 
-		Sphere sphere({ 0,0,0 }, sqrt(26));
+		Sphere sphere({ 0,0,0 }, std::sqrt(26));
+		//Sphere sphere({ 0,0,0 }, 3);
+		//Segment segment({ 3, -1, -2 }, { 5, 3, -4 });
 		Line line({ 3, -1, -2 }, { 5, 3, -4 });
 
 		Sphere::IntersectionResult result = sphere.getIntersection(line);
