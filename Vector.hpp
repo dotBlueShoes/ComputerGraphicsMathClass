@@ -37,7 +37,7 @@ struct Vector
 	}
 
 	float length() const;			
-	void normalize();		// Transform vector to (-1 : 1) range.
+	Vector normalize();		// Transform vector to (-1 : 1) range.
 	float angle(const Vector&);	// Angle between two vectors
 
 	bool isClose(Vector& v, float error);

@@ -107,13 +107,6 @@ int main() {
 
 	while (loop) {
 
-		// TO DO
-		// Add input reading here
-
-		// GetNumberOfConsoleInputEvents(inputHandle, &numberOfEvents);
-
-		//std::cout << numberOfEvents << std::endl;
-
 		if (!PeekConsoleInput(
 			inputHandle,
 			inputBuffer.data(),
@@ -124,17 +117,6 @@ int main() {
 			std::cout << output << std::endl;
 			return 0;
 		}
-
-		//if (!ReadConsoleInput(
-		//	inputHandle,			// Input buffer handle
-		//	inputBuffer.data(),     // Buffer to read into
-		//	inputBuffer.size(),     // Size of read buffer
-		//	&inputRead)				// Number of records read
-		//) {
-		//	output += "ReadConsoleInput == ERROR!";
-		//	std::cout << output << std::endl;
-		//	return 0;
-		//}
 
 		for (index = 0; index < inputRead; index++) {
 			switch (inputBuffer[index].EventType) {
@@ -172,10 +154,7 @@ int main() {
 		cameraPosition.y = radius * std::sin(pitchRadians) * std::cos(yawRadians);
 		cameraPosition.z = radius * std::sin(yawRadians);
 
-		Vector norm = cameraPosition * -1;
-		norm.normalize();
-
-		Vector cameraDirection = norm;
+		Vector cameraDirection = (cameraPosition * -1).normalize();
 
 		renderer.RayCast(cameraPosition, cameraDirection);
 		renderer.Draw(outputHandle);

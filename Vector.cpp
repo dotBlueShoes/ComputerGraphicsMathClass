@@ -137,16 +137,21 @@ float Vector::length() const
 	));
 }
 
-void Vector::normalize()
+Vector Vector::normalize()
 {
 	const float length = this->length();
-	if (length != 0)
-	{
-		this->divide(length);
-	} else
-	{
-		std::cout << "Can't divide by 0 [normalize]" << std::endl;
-	}
+	if (length == 0)
+		return Vector(0, 0, 0);
+
+	return *this / length;
+
+	//if (length != 0)
+	//{
+	//	this->divide(length);
+	//} else
+	//{
+	//	std::cout << "Can't divide by 0 [normalize]" << std::endl;
+	//}
 }
 
 float Vector::dot(const Vector& other) const
@@ -237,9 +242,9 @@ float Vector::angle(const Vector& other)
 	return acos(this->dot(other) / (this->length() * other.length()));
 }
 
-bool Vector::isClose(Vector& v, float error)
+bool Vector::isClose(Vector& other, float error)
 {
-	return std::abs(this->length() - v.length()) < error;
+	return std::abs(this->length() - other.length()) < error;
 }
 
 std::string Vector::toString() {

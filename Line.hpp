@@ -30,7 +30,7 @@ public:
 
 	Line getPlaneIntersection(const Line& other);
 
-	static bool isRayCastIntersecting(Line& line);
+	static bool isRayCastIntersecting(Line line);
 
 	Vector getDirectional();
 	Vector getPoint();

@@ -91,7 +91,7 @@ void Quaternion::normalize() {
 
 void Quaternion::convertToUnitNormQuaternion() {
 	float angle = this->scalar * Constants::pi<float> / 180;
-	this->vector.normalize();
+	this->vector = this->vector.normalize();
 	this->scalar = cosf(angle * 0.5);
 	this->vector = this->vector * sinf(angle * 0.5);
 }
@@ -116,7 +116,7 @@ Quaternion Quaternion::inverse() {
 
 Vector Quaternion::rotateVectorAboutAngleAndAxis(const float& angle, Vector& axis) {
 	Quaternion startVector(0, this->vector); // Convert our vector to a pure quaternion
-	axis.normalize(); // Normalize the axis
+	axis = axis.normalize(); // Normalize the axis
 	//std::cout << "here: " << axis.toString();
 	Quaternion temp(angle , axis); // Create the real quaternion
 	temp.convertToUnitNormQuaternion(); // Convert quaternion to unit norm quaternion

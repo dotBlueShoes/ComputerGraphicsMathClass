@@ -70,7 +70,7 @@ Line Line::getPlaneIntersection(const Line& plane)
 	return Line(0, 0, 0, 0, 0, 0);
 }
 
-bool Line::isRayCastIntersecting(Line& line)
+bool Line::isRayCastIntersecting(Line line)
 {
 	Vector boxMin(-1, -1, -1);
 	Vector boxMax(1, 1, 1);

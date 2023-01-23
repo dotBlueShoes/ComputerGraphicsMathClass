@@ -35,18 +35,17 @@ void RayTracingRenderEngine::RayCast(Vector cameraPosition, Vector cameraDirecti
 	}
 
 	Vector diff = screenPosition - cameraPosition;
-	diff.cross(worldUp).normalize();
-	Vector screenLeft = diff * -1;
+	diff *= -1;
+	Vector screenLeft = diff.cross(worldUp).normalize();
 
-	Vector screenDown = screenPosition.cross(screenLeft);
-	screenDown.normalize();
+	Vector screenDown = screenPosition.cross(screenLeft).normalize();
 
 	for (int i = 0; i < 60; ++i)
 	{
 		for (int j = 0; j < 60; ++j)
 		{
-			Vector pixelLocation = screenPosition + screenLeft * ((j - 30) * pixelSize);
-			pixelLocation = pixelLocation + screenDown * ((i - 30) * pixelSize);
+			Vector pixelLocation = screenPosition + (screenLeft * ((j - 30) * pixelSize));
+			pixelLocation = pixelLocation + (screenDown * ((i - 30) * pixelSize));
 
 			Line line = Line::FromTwoPoints(cameraPosition, pixelLocation);
 			pixels[i][j] = Line::isRayCastIntersecting(line);
