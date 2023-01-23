@@ -184,6 +184,50 @@ Vector Vector::operator*(const Vector& other) const {
 	);
 }
 
+Vector Vector::operator/(const Vector& v) const
+{
+	Vector newV = v;
+	if (newV.x == 0)
+	{
+		newV.x = 1;
+	}
+
+	if (newV.y == 0)
+	{
+		newV.y = 1;
+	}
+
+	if (newV.z == 0)
+	{
+		newV.z = 1;
+	}
+
+	Vector res;
+	res.x = this->x / newV.x;
+	res.y = this->y / newV.y;
+	res.z = this->z / newV.z;
+
+	return res;
+}
+
+Vector Vector::min(Vector v1, Vector v2)
+{
+	Vector res;
+	res.x = std::min(v1.x, v2.x);
+	res.y = std::min(v1.y, v2.y);
+	res.z = std::min(v1.z, v2.z);
+	return res;
+}
+
+Vector Vector::max(Vector v1, Vector v2)
+{
+	Vector res;
+	res.x = std::max(v1.x, v2.x);
+	res.y = std::max(v1.y, v2.y);
+	res.z = std::max(v1.z, v2.z);
+	return res;
+}
+
 float Vector::angle(const Vector& other)
 {
 	// eg.
@@ -191,6 +235,11 @@ float Vector::angle(const Vector& other)
 	// u * v = u.length * v.length * cos(angle)
 	// => cos(angle) = u.x * v.x + u.x * v.x + u.x * v.x / (u.length * v.length)
 	return acos(this->dot(other) / (this->length() * other.length()));
+}
+
+bool Vector::isClose(Vector& v, float error)
+{
+	return std::abs(this->length() - v.length()) < error;
 }
 
 std::string Vector::toString() {

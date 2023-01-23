@@ -40,6 +40,8 @@ struct Vector
 	void normalize();		// Transform vector to (-1 : 1) range.
 	float angle(const Vector&);	// Angle between two vectors
 
+	bool isClose(Vector& v, float error);
+
 	// Scalar Operations
 	void add(const float&);
 	void operator+=(const float&);
@@ -65,6 +67,10 @@ struct Vector
 	Vector cross(const Vector&) const;	 // Iloczyn krzy¿owy daje wektor prostopad³y do wektorów mno¿enia i mno¿nika.
 	void operator*=(const Vector&);
 	Vector operator*(const Vector&) const;
+	Vector operator/(const Vector&) const;
+
+	static Vector min(Vector v1, Vector v2);
+	static Vector max(Vector v1, Vector v2);
 
 	std::string toString();
 	

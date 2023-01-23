@@ -64,6 +64,22 @@ Line Line::getPlaneIntersection(const Line& plane)
 	return Line(0, 0, 0, 0, 0, 0);
 }
 
+bool Line::isRayCastIntersecting(Line& line)
+{
+	Vector boxMin(-1, -1, -1);
+	Vector boxMax(1, 1, 1);
+
+	Vector tMin = (boxMin - line.getPoint()) / line.getDirectional();
+	Vector tMax = (boxMax - line.getPoint()) / line.getDirectional();
+
+	Vector t1 = Vector::min(tMin, tMax);
+	Vector t2 = Vector::max(tMin, tMax);
+
+	float tNear = std::max(std::max(t1.x, t1.y), t1.z);
+	float tFar = std::min(std::min(t2.x, t2.y), t2.z);
+	return tFar > tNear;
+}
+
 Vector Line::getDirectional()
 {
 	return directional;
