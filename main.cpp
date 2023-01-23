@@ -12,6 +12,12 @@
 #include "Segment.hpp"
 #include "Sphere.hpp"
 
+#include "console.hpp"
+
+bool loop = true;
+float yaw = 0.5;
+float pitch = 0.0;
+float radius = 5.0;
 
 Line CreateLineFromTwoPoints(const Vector& point1, const Vector& point2) {
 	Vector temp = point2 - point1;
@@ -30,21 +36,122 @@ float clamp(float x, float mi, float ma)
 }
 
 
+void KeyEvent(KEY_EVENT_RECORD keyEvent) {
+	//printf("Key event: ");
+
+	const auto keyZ = 0x5A;
+	const auto keyX = 0x58;
+	const auto keyC = 0x43;
+	const auto keyV = 0x56;
+	const auto keyB = 0x42;
+	const auto keyN = 0x4E;
+	const float step = 0.1f;
+
+	switch (keyEvent.wVirtualKeyCode) {
+		case keyZ: {
+			yaw += step;
+			break;
+		}
+		case keyX: {
+			yaw -= step;
+			break;
+		}
+		case keyC: {
+			pitch += step;
+			break;
+		}
+		case keyV: {
+			pitch -= step;
+			break;
+		}
+		case keyB: {
+			radius += step;
+			break;
+		}
+		case keyN: {
+			radius -= step;
+			break;
+		}
+	}
+
+	//if (keyEvent.bKeyDown)
+	//	loop = false;
+	//printf("key pressed\n");
+	//else printf("key released\n");
+}
+
+
 int main() {
 	RayTracingRenderEngine renderer;
 	using std::string;
 	string output("");
 
-	float yaw = 0.;
-	float pitch = 0.;
-	float radius = 5.;
+	// Input
+	std::array<INPUT_RECORD, 128> inputBuffer;
+	DWORD inputRead, index;
+	DWORD numberOfEvents;
 
-	bool loop = true;
+	auto outputHandle = Console::GetOutputHandle();
+	if (outputHandle == Console::invalidHandle) {
+		output += "inputProcess == INVALID_HANDLE_VALUE!";
+		std::cout << output << std::endl;
+		return 0;
+	}
 
-	while (loop)
-	{
+	auto inputHandle = Console::GetInputHandle();
+	if (inputHandle == Console::invalidHandle) {
+		output += "inputProcess == INVALID_HANDLE_VALUE!";
+		std::cout << output << std::endl;
+		return 0;
+	}
+
+	while (loop) {
+
 		// TO DO
 		// Add input reading here
+
+		// GetNumberOfConsoleInputEvents(inputHandle, &numberOfEvents);
+
+		//std::cout << numberOfEvents << std::endl;
+
+		if (!PeekConsoleInput(
+			inputHandle,
+			inputBuffer.data(),
+			inputBuffer.size(),
+			&inputRead
+		)) {
+			output += "ReadConsoleInput == ERROR!";
+			std::cout << output << std::endl;
+			return 0;
+		}
+
+		//if (!ReadConsoleInput(
+		//	inputHandle,			// Input buffer handle
+		//	inputBuffer.data(),     // Buffer to read into
+		//	inputBuffer.size(),     // Size of read buffer
+		//	&inputRead)				// Number of records read
+		//) {
+		//	output += "ReadConsoleInput == ERROR!";
+		//	std::cout << output << std::endl;
+		//	return 0;
+		//}
+
+		for (index = 0; index < inputRead; index++) {
+			switch (inputBuffer[index].EventType) {
+				case KEY_EVENT: // keyboard input
+					KeyEvent(inputBuffer[index].Event.KeyEvent);
+					break;
+				case MOUSE_EVENT:				// mouse input
+				case WINDOW_BUFFER_SIZE_EVENT:	// scrn buf. resizing
+				case FOCUS_EVENT:				// disregard focus events
+				case MENU_EVENT:				// disregard menu events
+					break;
+				default:
+					break;
+			}
+		}
+
+		FlushConsoleInputBuffer(inputHandle);
 
 		yaw = clamp(yaw, -90.0, 90.0);
 
@@ -71,7 +178,7 @@ int main() {
 		Vector cameraDirection = norm * -1;
 
 		renderer.RayCast(cameraPosition, cameraDirection);
-		renderer.Draw();
+		renderer.Draw(outputHandle);
 	}
 	
 

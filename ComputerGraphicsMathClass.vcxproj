@@ -137,6 +137,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="console.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Framework.hpp" />
     <ClInclude Include="Line.hpp" />

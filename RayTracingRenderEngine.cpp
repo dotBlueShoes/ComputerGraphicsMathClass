@@ -5,32 +5,17 @@
 
 RayTracingRenderEngine::RayTracingRenderEngine()
 {
-	for (std::array<bool, 60>& column : pixels)
+	for (std::array<char, 60>& column : pixels)
 	{
-		for (bool& pixel : column)
+		for (char& pixel : column)
 		{
-			pixel = false;
+			pixel = 46;
 		}
 	}
 }
 
-void RayTracingRenderEngine::Draw()
-{
-	for (int i = 0; i < 60; ++i)
-	{
-		for (int j = 0; j < 60; ++j)
-		{
-			if (pixels[i][j])
-			{
-				std::cout << "0";
-			}
-			else
-			{
-				std::cout << ".";
-			}
-		}
-		std::cout << std::endl;
-	}
+void RayTracingRenderEngine::Draw(const HANDLE& outputHandle) {
+	WriteConsoleA(outputHandle, pixels.data(), pixels.size() * pixels.data()[0].size(), nullptr, nullptr);
 }
 
 void RayTracingRenderEngine::RayCast(Vector cameraPosition, Vector cameraDirection)
@@ -65,6 +50,8 @@ void RayTracingRenderEngine::RayCast(Vector cameraPosition, Vector cameraDirecti
 
 			Line line = Line(cameraPosition, pixelLocation);
 			pixels[i][j] = Line::isRayCastIntersecting(line);
+			pixels[i][j] <<= 1;
+			pixels[i][j] += 46;
 		}
 	}
 }
