@@ -15,8 +15,8 @@
 #include "console.hpp"
 
 bool loop = true;
-float yaw = 0.0;
-float pitch = 0.0;
+float yaw = 0.5;
+float pitch = 0.5;
 float radius = 5.0;
 
 Line CreateLineFromTwoPoints(const Vector& point1, const Vector& point2) {
