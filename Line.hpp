@@ -19,6 +19,8 @@ public:
 		const float& newX, const float& newY, const float& newZ
 	) : directional(newDirectionalX, newDirectionalY, newDirectionalZ), point(newX, newY, newZ) {}
 
+	static Line FromTwoPoints(Vector a, Vector b);
+
 	bool lineIntersectionCheck(const Line& other);
 	Vector getLineIntersectionPoint(const Line& other);
 	float getAngleBetweenLines(const Line& other);

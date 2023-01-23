@@ -23,9 +23,9 @@ void RayTracingRenderEngine::RayCast(Vector cameraPosition, Vector cameraDirecti
 	float pixelSize = 1.0 / 60.0;
 	float screenDistance = 1.f;
 
-	Vector screenPosition = cameraPosition + cameraDirection + screenDistance;
+	Vector screenPosition = cameraPosition + cameraDirection * screenDistance;
 
-	Vector worldUp(0.0, 0.0, 1.0);
+	Vector worldUp(0.0, 1.0, 0.0);
 
 	Vector check(0.0, 1.0, 0.0);
 
@@ -48,7 +48,7 @@ void RayTracingRenderEngine::RayCast(Vector cameraPosition, Vector cameraDirecti
 			Vector pixelLocation = screenPosition + screenLeft * ((j - 30) * pixelSize);
 			pixelLocation = pixelLocation + screenDown * ((i - 30) * pixelSize);
 
-			Line line = Line(cameraPosition, pixelLocation);
+			Line line = Line::FromTwoPoints(cameraPosition, pixelLocation);
 			pixels[i][j] = Line::isRayCastIntersecting(line);
 			pixels[i][j] <<= 1;
 			pixels[i][j] += 46;

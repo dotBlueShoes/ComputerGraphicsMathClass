@@ -49,27 +49,27 @@ void KeyEvent(KEY_EVENT_RECORD keyEvent) {
 
 	switch (keyEvent.wVirtualKeyCode) {
 		case keyZ: {
-			yaw += step;
+			yaw += 10;
 			break;
 		}
 		case keyX: {
-			yaw -= step;
+			yaw -= 10;
 			break;
 		}
 		case keyC: {
-			pitch += step;
+			pitch += 10;
 			break;
 		}
 		case keyV: {
-			pitch -= step;
+			pitch -= 10;
 			break;
 		}
 		case keyB: {
-			radius += step;
+			radius += 0.5;
 			break;
 		}
 		case keyN: {
-			radius -= step;
+			radius -= 0.5;
 			break;
 		}
 	}
@@ -172,10 +172,10 @@ int main() {
 		cameraPosition.y = radius * std::sin(pitchRadians) * std::cos(yawRadians);
 		cameraPosition.z = radius * std::sin(yawRadians);
 
-		Vector norm = cameraPosition;
+		Vector norm = cameraPosition * -1;
 		norm.normalize();
 
-		Vector cameraDirection = norm * -1;
+		Vector cameraDirection = norm;
 
 		renderer.RayCast(cameraPosition, cameraDirection);
 		renderer.Draw(outputHandle);

@@ -2,6 +2,12 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+Line Line::FromTwoPoints(Vector a, Vector b)
+{
+	Vector found = b - a;
+	return { found, a };
+}
+
 bool Line::lineIntersectionCheck(const Line& other)
 {
 	if (fabs(this->directional.cross(other.directional).length()) == 0.f)
