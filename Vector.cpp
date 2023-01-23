@@ -145,7 +145,10 @@ void Vector::normalize()
 		this->divide(length);
 	} else
 	{
-		std::cout << "Can't divide by 0 [normalize]" << std::endl;
+		//std::cout << "Can't divide by 0 [normalize]" << std::endl;
+		this->x = 0;
+		this->y = 0;
+		this->z = 0;
 	}
 }
 
