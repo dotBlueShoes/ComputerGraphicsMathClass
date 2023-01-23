@@ -15,7 +15,7 @@
 #include "console.hpp"
 
 bool loop = true;
-float yaw = 0.5;
+float yaw = 0.0;
 float pitch = 0.0;
 float radius = 5.0;
 
